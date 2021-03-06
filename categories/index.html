@@ -24,15 +24,17 @@
     var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta property="og:type" content="website">
-<meta property="og:title" content="流云的笔记">
-<meta property="og:url" content="https://blog.prototyped.cn/archives/2021/03/index.html">
+<meta property="og:title" content="分类">
+<meta property="og:url" content="https://blog.prototyped.cn/categories/index.html">
 <meta property="og:site_name" content="流云的笔记">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-06T11:06:30.000Z">
+<meta property="article:modified_time" content="2021-03-06T11:07:12.743Z">
 <meta property="article:author" content="流云">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.prototyped.cn/archives/2021/03/">
+<link rel="canonical" href="https://blog.prototyped.cn/categories/">
 
 
 <script class="page-configurations">
@@ -44,7 +46,8 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>归档 | 流云的笔记</title>
+<title>分类 | 流云的笔记
+</title>
   
 
   <script>
@@ -216,50 +219,50 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner page posts-expand">
+  
+  
 
 
-  
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 1 篇日志。 继续努力。</span>
-      </div>
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">分类
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-03-06T07:57:55+08:00"
-              content="2021-03-06">
-          03-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/06/protobuf-in-game/" itemprop="url">
-            <span itemprop="name">protobuf在游戏通信协议中的使用</span>
-          </a>
-      </div>
-
       
-    </header>
-  </article>
+      <div class="post-body"><div class="category-all-page">
+  <div class="category-all-title">
+    暂无分类
+  </div>
+  <div class="category-all">
+    
+  </div>
+</div>
 
-
+      </div>
+      
+      
+      
     </div>
+
+    
+    
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-  
-  
-
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -341,6 +344,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.prototyped.cn/categories/index.html";
+    this.page.identifier = "categories/index.html";
+    this.page.title = "分类";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ichenq.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 </body>
