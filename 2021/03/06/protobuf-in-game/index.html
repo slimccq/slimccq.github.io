@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta name="description" content="通协议中的消息对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络组件里把TCP字节流解析成应用层需要的一条一条的消息(message)。 一条消息包含消息ID和消息内容。 消息ID主要用于告知后段的消息内容怎么解析，通常为了节省流量，消息ID使用整数表示，这个消息ID类似web开发中RPC协议里的method字符串。 消息内容就是这条消息里包含的参数">
 <meta property="og:type" content="article">
@@ -481,7 +481,7 @@
 <script>
   function loadCount() {
     var d = document, s = d.createElement('script');
-    s.src = 'https://ichenq.disqus.com/count.js';
+    s.src = 'https://slimccq.disqus.com/count.js';
     s.id = 'dsq-count-scr';
     (d.head || d.body).appendChild(s);
   }
@@ -502,7 +502,7 @@
       });
     } else {
       var d = document, s = d.createElement('script');
-      s.src = 'https://ichenq.disqus.com/embed.js';
+      s.src = 'https://slimccq.disqus.com/embed.js';
       s.setAttribute('data-timestamp', '' + +new Date());
       (d.head || d.body).appendChild(s);
     }
