@@ -25,16 +25,26 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="流云的笔记">
-<meta property="og:url" content="https://blog.prototyped.cn/archives/2021/03/index.html">
+<meta name="description" content="缘起在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，生成是生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何实现一个导表工具">
+<meta property="og:url" content="https://blog.prototyped.cn/2021/03/11/tabular-tool/index.html">
 <meta property="og:site_name" content="流云的笔记">
+<meta property="og:description" content="缘起在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，生成是生">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-11T00:05:55.000Z">
+<meta property="article:modified_time" content="2021-03-21T03:11:46.902Z">
 <meta property="article:author" content="流云">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="excel">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="导表工具">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.prototyped.cn/archives/2021/03/">
+<link rel="canonical" href="https://blog.prototyped.cn/2021/03/11/tabular-tool/">
 
 
 <script class="page-configurations">
@@ -42,11 +52,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
-<title>归档 | 流云的笔记</title>
+<title>如何实现一个导表工具 | 流云的笔记</title>
   
 
   <script>
@@ -154,7 +164,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -167,6 +177,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -223,90 +234,196 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 3 篇日志。 继续努力。</span>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.prototyped.cn/2021/03/11/tabular-tool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="流云">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流云的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何实现一个导表工具
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-11 08:05:55" itemprop="dateCreated datePublished" datetime="2021-03-11T08:05:55+08:00">2021-03-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-21 11:11:46" itemprop="dateModified" datetime="2021-03-21T11:11:46+08:00">2021-03-21</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/11/tabular-tool/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
       </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>344</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。</p>
+<p>导表工具做的事情其实很简单，就是<code>导出</code>和<code>生成</code>两个功能，<code>导出</code>是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，<code>生成</code>是生成程序代码API，业务模块直接调用这个API就可以完成配置数据的读取和解析，甚至筛选。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>假如有下面这样的一个表格</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Damage</th>
+<th>Level</th>
+<th>CostFood</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>int</td>
+<td>int16</td>
+<td>int</td>
+</tr>
+<tr>
+<td>名称</td>
+<td>每秒伤害</td>
+<td>等级</td>
+<td>食物消耗</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>100</td>
+<td>1</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>150</td>
+<td>2</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>200</td>
+<td>3</td>
+<td>500</td>
+</tr>
+</tbody></table>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-03-30T07:51:15+08:00"
-              content="2021-03-30">
-          03-30
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/30/go-vanity-import/" itemprop="url">
-            <span itemprop="name">Go Module如何自定义import路径</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          
 
-      
-    </header>
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>流云
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://blog.prototyped.cn/2021/03/11/tabular-tool/" title="如何实现一个导表工具">https://blog.prototyped.cn/2021/03/11/tabular-tool/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/excel/" rel="tag"># excel</a>
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Golang/" rel="tag"># Golang</a>
+              <a href="/tags/%E5%AF%BC%E8%A1%A8%E5%B7%A5%E5%85%B7/" rel="tag"># 导表工具</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/06/protobuf-in-game/" rel="prev" title="protobuf在游戏通信协议中的使用">
+                  <i class="fa fa-chevron-left"></i> protobuf在游戏通信协议中的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/30/go-vanity-import/" rel="next" title="Go Module如何自定义import路径">
+                  Go Module如何自定义import路径 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-03-11T08:05:55+08:00"
-              content="2021-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/11/tabular-tool/" itemprop="url">
-            <span itemprop="name">如何实现一个导表工具</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-03-06T07:57:55+08:00"
-              content="2021-03-06">
-          03-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/06/protobuf-in-game/" itemprop="url">
-            <span itemprop="name">protobuf在游戏通信协议中的使用</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-  
-  
-
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -388,6 +505,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.prototyped.cn/2021/03/11/tabular-tool/";
+    this.page.identifier = "2021/03/11/tabular-tool/";
+    this.page.title = "如何实现一个导表工具";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://slimccq.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 </body>

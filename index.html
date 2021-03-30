@@ -11,6 +11,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="wOowVdE8t-4f7XcFLx9Qgt5xpiWSkjeECVhSr793gxY">
+  <meta name="baidu-site-verification" content="c363640d6f7b6c025567421e08aee915">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -178,18 +180,23 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cheadaq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cheadaq" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+  </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
@@ -217,6 +224,266 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.prototyped.cn/2021/03/30/go-vanity-import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="流云">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流云的笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/30/go-vanity-import/" class="post-title-link" itemprop="url">Go Module如何自定义import路径</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-30 07:51:15 / 修改时间：22:20:29" itemprop="dateCreated datePublished" datetime="2021-03-30T07:51:15+08:00">2021-03-30</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/30/go-vanity-import/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/30/go-vanity-import/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>592</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="为什么需要自定义import路径"><a href="#为什么需要自定义import路径" class="headerlink" title="为什么需要自定义import路径"></a>为什么需要自定义import路径</h3><p><a target="_blank" rel="noopener" href="https://golang.google.cn/doc/go1.16">Go 1.16</a>已经默认开启Go Module模式</p>
+<h3 id="如何实现自定义import路径"><a href="#如何实现自定义import路径" class="headerlink" title="如何实现自定义import路径"></a>如何实现自定义import路径</h3><h4 id="申请自有域名"><a href="#申请自有域名" class="headerlink" title="申请自有域名"></a>申请自有域名</h4><p>首先，需要申请一个自有域名，如<code>devpkg.work</code></p>
+<p>则其它项目要引用simplemod的代码，需要这样import</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;devpkg.work&#x2F;simplemod</span><br></pre></td></tr></table></figure>
+<p>创建一个module</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go mod init devpkg.work/simplemod</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="配置静态web服务"><a href="#配置静态web服务" class="headerlink" title="配置静态web服务"></a>配置静态web服务</h4><p>动态web服务始终要购买云服务，借助<a target="_blank" rel="noopener" href="https://pages.github.com/">Github Page</a> 静态网站托管，<br>再配合<a target="_blank" rel="noopener" href="https://www.netlify.com/">netlify</a>提供的<a target="_blank" rel="noopener" href="https://docs.netlify.com/routing/redirects/">重定向</a>功能，可以做一个白嫖版本的go import域名跳转</p>
+<p>步骤如下：</p>
+<ol>
+<li>创建一个github repo</li>
+<li>创建一个netlify app，并绑定此github repo</li>
+<li>把自有域名绑定到netlify app上</li>
+<li>在github repo上提交go import的html，并编写<code>_redirects</code>里的跳转规则</li>
+</ol>
+<h4 id="使用此module"><a href="#使用此module" class="headerlink" title="使用此module"></a>使用此module</h4><p>初始化一个exmple，并调用simplemod的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir example &amp;&amp; <span class="built_in">cd</span> example &amp;&amp; go mod init example</span><br><span class="line">go get -u -v devpkg.work/simplemod</span><br></pre></td></tr></table></figure>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://sagikazarmark.hu/blog/vanity-import-paths-in-go/">vanity import paths in Go</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.golang.org/package-names">package name</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/golang-standards/project-layout">goland-standard-project-layout</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.prototyped.cn/2021/03/11/tabular-tool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="流云">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="流云的笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/11/tabular-tool/" class="post-title-link" itemprop="url">如何实现一个导表工具</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-11 08:05:55" itemprop="dateCreated datePublished" datetime="2021-03-11T08:05:55+08:00">2021-03-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-21 11:11:46" itemprop="dateModified" datetime="2021-03-21T11:11:46+08:00">2021-03-21</time>
+      </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/11/tabular-tool/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>344</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。</p>
+<p>导表工具做的事情其实很简单，就是<code>导出</code>和<code>生成</code>两个功能，<code>导出</code>是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，<code>生成</code>是生成程序代码API，业务模块直接调用这个API就可以完成配置数据的读取和解析，甚至筛选。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>假如有下面这样的一个表格</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Damage</th>
+<th>Level</th>
+<th>CostFood</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>int</td>
+<td>int16</td>
+<td>int</td>
+</tr>
+<tr>
+<td>名称</td>
+<td>每秒伤害</td>
+<td>等级</td>
+<td>食物消耗</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>100</td>
+<td>1</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>150</td>
+<td>2</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Marine</td>
+<td>200</td>
+<td>3</td>
+<td>500</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -257,7 +524,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-11 07:47:39" itemprop="dateModified" datetime="2021-03-11T07:47:39+08:00">2021-03-11</time>
+        <time title="修改时间：2021-03-30 22:02:44" itemprop="dateModified" datetime="2021-03-30T22:02:44+08:00">2021-03-30</time>
       </span>
 
   
@@ -282,14 +549,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -373,28 +640,21 @@
 <p>一个很自然的想法就是通过字符串hash(比如crc32/fnv)，消息ID就是消息名称的hash值，在程序的启动阶段，遍历所有消息对象拿到所有消息的名称，把消息名称的hash和对应的Descriptor对象关联起来，比如放到字典中。</p>
 <p>这样从网络层读取到消息ID（也就是消息名字hash)的时候，用这个hash去关联字典查找到Descriptor对象，再通过Descriptor对象生成消息结构，有了消息结构就可以做消息解析了。</p>
 <p>大致实现代码如下，完整的示例见<a target="_blank" rel="noopener" href="https://github.com/slimccq/examples/tree/main/protobuf/protobuf-reflection">github</a></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 消息名称hash和消息descriptor的映射</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="keyword">uint32_t</span>, <span class="keyword">const</span> Descriptor*&gt; registry;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化关联字典</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initProtoRegistry</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> FileDescriptor* fileDescriptor = DescriptorPool::generated_pool()-&gt;FindFileByName(filename);</span><br><span class="line">    <span class="keyword">if</span> (fileDescriptor == <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> msgcount = fileDescriptor-&gt;message_type_count();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; msgcount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> Descriptor* descriptor = fileDescriptor-&gt;message_type(i);</span><br><span class="line">        <span class="keyword">if</span> (descriptor != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; name = descriptor-&gt;name();</span><br><span class="line">            <span class="comment">// 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知</span></span><br><span class="line">            <span class="keyword">if</span> (endsWith(name, <span class="string">&quot;Ntf&quot;</span>) || endsWith(name, <span class="string">&quot;Req&quot;</span>) || endsWith(name, <span class="string">&quot;Ack&quot;</span>)) &#123;</span><br><span class="line">                <span class="keyword">uint32_t</span> hash = fnvHash(name);</span><br><span class="line">                registry[hash] = descriptor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过hash找到descriptor指针，再用descriptor指针创建具体的消息对象</span></span><br><span class="line">google::<span class="function">protobuf::Message* <span class="title">createMessage</span><span class="params">(<span class="keyword">uint32_t</span> hash)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> iter = registry.find(hash);</span><br><span class="line">    <span class="keyword">if</span> (iter == registry.end()) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> Message* protoType = MessageFactory::generated_factory()-&gt;GetPrototype(iter-&gt;second);</span><br><span class="line">    <span class="keyword">if</span> (protoType != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> protoType-&gt;New();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在程序启动阶段调用<code>initProtoRegistry(&quot;message.proto&quot;)</code>初始化所有消息ID和消息结构关联的字典，当从网络层读取到消息ID和消息<br>结构字节流的时候，把消息ID作为参数调用<code>createMessage()</code>返回消息结构对象，然后再使用protobuf内置的<code>ParseFromArray()</code>方法解析消息字节流到消息结构中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 消息名称hash和消息descriptor的映射</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="keyword">uint32_t</span>, <span class="keyword">const</span> Descriptor*&gt; registry;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化关联字典</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initProtoRegistryV1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> DescriptorPool* pool = DescriptorPool::generated_pool();</span><br><span class="line">    DescriptorDatabase* db = pool-&gt;internal_generated_database();</span><br><span class="line">    <span class="keyword">if</span> (db == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; file_names;</span><br><span class="line">    db-&gt;FindAllFileNames(&amp;file_names);   <span class="comment">// 遍历得到所有proto文件名</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; filename : file_names)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> FileDescriptor* fileDescriptor = DescriptorPool::generated_pool()-&gt;FindFileByName(filename);</span><br><span class="line">        <span class="keyword">if</span> (fileDescriptor == <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> msgcount = fileDescriptor-&gt;message_type_count();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; msgcount; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> Descriptor* descriptor = fileDescriptor-&gt;message_type(i);</span><br><span class="line">            <span class="keyword">if</span> (descriptor != <span class="literal">nullptr</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; name = descriptor-&gt;full_name();</span><br><span class="line">                <span class="keyword">if</span> (startsWith(name, <span class="string">&quot;protocol&quot;</span>)) <span class="comment">// 指定命名空间</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知</span></span><br><span class="line">                    <span class="comment">// 则含有指定后缀的消息才会自动加入关联</span></span><br><span class="line">                    <span class="keyword">if</span> (hasSuffix(name)) &#123;</span><br><span class="line">                        <span class="keyword">uint32_t</span> hash = fnvHash(name);</span><br><span class="line">                        registry[hash] = descriptor;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过hash找到descriptor指针，再用descriptor指针创建具体的消息对象</span></span><br><span class="line">google::<span class="function">protobuf::Message* <span class="title">createMessage</span><span class="params">(<span class="keyword">uint32_t</span> hash)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> iter = registry.find(hash);</span><br><span class="line">    <span class="keyword">if</span> (iter == registry.end()) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> Message* protoType = MessageFactory::generated_factory()-&gt;GetPrototype(iter-&gt;second);</span><br><span class="line">    <span class="keyword">if</span> (protoType != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> protoType-&gt;New();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在程序启动阶段调用<code>initProtoRegistry()</code>初始化所有消息ID和消息结构关联的字典，当从网络层读取到消息ID和消息<br>结构字节流的时候，把消息ID作为参数调用<code>createMessage()</code>返回消息结构对象，然后再使用protobuf内置的<code>ParseFromArray()</code>方法解析消息字节流到消息结构中。</p>
 <p>到此，整个通信协议的开发流程已经非常简化了，大部分项目能做到这一步也已经是很不错了。</p>
 <p>对于上面的方案，主要是有几个不尽人意的地方：</p>
 <ol>
 <li>消息名称不能随便修改，因为改动了消息ID(也就是名称的hash)就会变化，会影响到兼容性；</li>
-<li>消息ID不能指定范围，比如我做了一个系统接受的消息ID范围在1000-10000之间，不在此区间的就直接丢弃；</li>
+<li>消息ID不能指定范围，比如我做了一个系统，希望接受的消息ID在范围1000-10000之间，不在此区间的就直接丢弃；</li>
 <li>在调试的时候，收到一个消息ID，它通常很大，我们很难在肉眼层面去debug它是不是一个合理的消息ID值；</li>
 </ol>
 <p>所以还有第二个选择，使用protobuf的MessageOption。</p>
 <p>我们在定义proto文件的时候，还是使用枚举作为消息ID，这样我们可以控制消息ID的范围，然后我们再使用MessageOption手动给每个Message对象指定消息ID，在注册消息ID的关联字典的时候，把MessageOption里指定的消息ID与消息Descriptor关联，其它都与上面的使用消息名称的hash方式一致。</p>
 <figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;google/protobuf/descriptor.proto&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义消息ID的option</span></span><br><span class="line">extend google.protobuf.MessageOptions &#123; MessageID MsgID = <span class="number">50002</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消息ID枚举</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">MessageID</span> </span>&#123;</span><br><span class="line">    MSG_NONE = <span class="number">0</span>;</span><br><span class="line">    MSG_DISCONNECT_NOTIFY = <span class="number">1000</span>;</span><br><span class="line">    MSG_LOGIN_REQUEST = <span class="number">1001</span>;</span><br><span class="line">    MSG_LOGIN_REPLY = <span class="number">1002</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 下线通知</span></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">DisconnectNtf</span> </span>&#123;</span><br><span class="line">    <span class="keyword">option</span> (MsgID) = MSG_DISCONNECT_NOTIFY;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">int32</span> err_code = <span class="number">1</span>;     <span class="comment">// 错误码</span></span><br><span class="line">    <span class="built_in">string</span> reason = <span class="number">2</span>;      <span class="comment">// 原因(重复登录或者被踢下线)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 登录请求</span></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">LoginReq</span> </span>&#123;</span><br><span class="line">  <span class="keyword">option</span> (MsgID) = MSG_LOGIN_REQUEST;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">string</span> user = <span class="number">1</span>;          <span class="comment">// 账号</span></span><br><span class="line">  <span class="built_in">string</span> token = <span class="number">2</span>;         <span class="comment">// 令牌</span></span><br><span class="line">  <span class="built_in">int64</span> unix_time = <span class="number">3</span>;      <span class="comment">// 时间戳</span></span><br><span class="line">  <span class="built_in">string</span> language = <span class="number">4</span>;      <span class="comment">// 区域和语言</span></span><br><span class="line">  <span class="built_in">string</span> client_os = <span class="number">5</span>;     <span class="comment">// iOS, Android, Web</span></span><br><span class="line">  <span class="built_in">string</span> device_type = <span class="number">6</span>;   <span class="comment">// Windows, Android, iOS</span></span><br><span class="line">  <span class="built_in">string</span> app_version = <span class="number">7</span>;   <span class="comment">// 客户端版本号</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 登录返回</span></span><br><span class="line"><span class="class"><span class="keyword">message</span> <span class="title">LoginAck</span> </span>&#123;</span><br><span class="line">  <span class="keyword">option</span> (MsgID) = MSG_LOGIN_REPLY;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">int32</span> err_code = <span class="number">1</span>;       <span class="comment">// 错误码</span></span><br><span class="line">  <span class="built_in">string</span> access_token = <span class="number">2</span>;  <span class="comment">// 访问令牌</span></span><br><span class="line">  <span class="built_in">int32</span> session = <span class="number">3</span>;        <span class="comment">// 会话</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>注册消息的代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册消息ID关联字典</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initProtoRegistryV2</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> FileDescriptor* fileDescriptor = DescriptorPool::generated_pool()-&gt;FindFileByName(filename);</span><br><span class="line">    <span class="keyword">if</span> (fileDescriptor == <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> msgcount = fileDescriptor-&gt;message_type_count();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; msgcount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> Descriptor* descriptor = fileDescriptor-&gt;message_type(i);</span><br><span class="line">        <span class="keyword">if</span> (descriptor != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; name = descriptor-&gt;name();</span><br><span class="line">            <span class="comment">// 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知</span></span><br><span class="line">            <span class="keyword">if</span> (endsWith(name, <span class="string">&quot;Ntf&quot;</span>) || endsWith(name, <span class="string">&quot;Req&quot;</span>) || endsWith(name, <span class="string">&quot;Ack&quot;</span>)) &#123;</span><br><span class="line">                <span class="keyword">auto</span> opts = descriptor-&gt;options();</span><br><span class="line">                protocol::MessageID v = opts.GetExtension(protocol::MsgID); <span class="comment">// 获取MessageOption里指定的ID</span></span><br><span class="line">                registry2[v] = descriptor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用MessageOption后序列化代码已经非常简化了，只需要在启动代码里针对每一个proto文件调用<code>initProtoRegistry()</code>注册消息ID和消息结构的关联字典即可。</p>
-<h3 id="protobuf解决了什么问题"><a href="#protobuf解决了什么问题" class="headerlink" title="protobuf解决了什么问题"></a>protobuf解决了什么问题</h3><p>上面主要阐述protobuf在通信层面的使用，最后再来总结一下为什么要使用protobuf，它有什么优点，它解决了什么问题。</p>
-<ul>
-<li><p>协议兼容性</p>
-</li>
-<li><p>DSL语法</p>
-</li>
-</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册消息ID关联字典</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initProtoRegistryV2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> DescriptorPool* pool = DescriptorPool::generated_pool();</span><br><span class="line">    DescriptorDatabase* db = pool-&gt;internal_generated_database();</span><br><span class="line">    <span class="keyword">if</span> (db == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; file_names;</span><br><span class="line">    db-&gt;FindAllFileNames(&amp;file_names);   <span class="comment">// 遍历得到所有proto文件名</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; filename : file_names)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> FileDescriptor* fileDescriptor = pool-&gt;FindFileByName(filename);</span><br><span class="line">        <span class="keyword">if</span> (fileDescriptor == <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> msgcount = fileDescriptor-&gt;message_type_count();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; msgcount; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> Descriptor* descriptor = fileDescriptor-&gt;message_type(i);</span><br><span class="line">            <span class="keyword">if</span> (descriptor != <span class="literal">nullptr</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; name = descriptor-&gt;full_name();</span><br><span class="line">                <span class="keyword">if</span> (startsWith(name, <span class="string">&quot;protocol&quot;</span>)) &#123; <span class="comment">// 指定命名空间</span></span><br><span class="line">                    <span class="comment">// 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知</span></span><br><span class="line">                    <span class="comment">// 则含有指定后缀的消息才会自动加入关联</span></span><br><span class="line">                    <span class="keyword">if</span> (hasSuffix(name)) &#123;</span><br><span class="line">                        <span class="keyword">auto</span> opts = descriptor-&gt;options();</span><br><span class="line">                        protocol::MessageID v = opts.GetExtension(protocol::MsgID);</span><br><span class="line">                        registry[v] = descriptor;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据ID创建消息结构还是一样</span></span><br><span class="line">google::<span class="function">protobuf::Message* <span class="title">createMessageV2</span><span class="params">(protocol::MessageID msgId)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> iter = registry2.find(msgId);</span><br><span class="line">    <span class="keyword">if</span> (iter == registry2.end())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> Message* protoType = MessageFactory::generated_factory()-&gt;GetPrototype(iter-&gt;second);</span><br><span class="line">    <span class="keyword">if</span> (protoType != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> protoType-&gt;New();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用MessageOption后序列化代码已经非常简化了，只需要在启动代码里调用<code>initProtoRegistryV2()</code>注册消息ID和消息结构的关联字典即可。</p>
 
       
     </div>
@@ -456,13 +716,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">10k</span>
+    <span title="站点总字数">12k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9 分钟</span>
+    <span title="站点阅读时长">11 分钟</span>
   </span>
 </div>
 
