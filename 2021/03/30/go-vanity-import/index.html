@@ -12,6 +12,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="wOowVdE8t-4f7XcFLx9Qgt5xpiWSkjeECVhSr793gxY">
+  <meta name="msvalidate.01" content="5E0DBB3C8C8CFB83411ED50D059CC7C2">
   <meta name="baidu-site-verification" content="c363640d6f7b6c025567421e08aee915">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -23,17 +24,17 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="为什么需要自定义import路径Go 1.16已经默认开启Go Module模式 如何实现自定义import路径申请自有域名首先，需要申请一个自有域名，如devpkg.work 则其它项目要引用simplemod的代码，需要这样import 1import &quot;devpkg.work&#x2F;simplemod 创建一个module 12go mod init devpkg.work&#x2F;s">
+<meta name="description" content="为什么需要自定义import路径Go 1.16已经默认开启Go Module模式 如何实现自定义import路径">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go Module如何自定义import路径">
 <meta property="og:url" content="https://blog.prototyped.cn/2021/03/30/go-vanity-import/index.html">
 <meta property="og:site_name" content="流云的笔记">
-<meta property="og:description" content="为什么需要自定义import路径Go 1.16已经默认开启Go Module模式 如何实现自定义import路径申请自有域名首先，需要申请一个自有域名，如devpkg.work 则其它项目要引用simplemod的代码，需要这样import 1import &quot;devpkg.work&#x2F;simplemod 创建一个module 12go mod init devpkg.work&#x2F;s">
+<meta property="og:description" content="为什么需要自定义import路径Go 1.16已经默认开启Go Module模式 如何实现自定义import路径">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-29T23:51:15.000Z">
-<meta property="article:modified_time" content="2021-03-30T14:20:29.936Z">
+<meta property="article:modified_time" content="2021-03-30T14:36:44.305Z">
 <meta property="article:author" content="流云">
 <meta property="article:tag" content="Golang">
 <meta name="twitter:card" content="summary">
@@ -265,7 +266,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-03-30 07:51:15 / 修改时间：22:20:29" itemprop="dateCreated datePublished" datetime="2021-03-30T07:51:15+08:00">2021-03-30</time>
+      <time title="创建时间：2021-03-30 07:51:15 / 修改时间：22:36:44" itemprop="dateCreated datePublished" datetime="2021-03-30T07:51:15+08:00">2021-03-30</time>
     </span>
 
   
@@ -275,11 +276,13 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Disqus：</span>
+      <span class="post-meta-item-text">Changyan：</span>
     
-    <a title="disqus" href="/2021/03/30/go-vanity-import/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/30/go-vanity-import/" itemprop="commentCount"></span>
-    </a>
+    
+      <a title="changyan" href="/2021/03/30/go-vanity-import/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/30/go-vanity-import/" itemprop="commentCount"></span>
+      </a>
+    
   </span>
   
   
@@ -309,7 +312,9 @@
     
     <div class="post-body" itemprop="articleBody">
         <h3 id="为什么需要自定义import路径"><a href="#为什么需要自定义import路径" class="headerlink" title="为什么需要自定义import路径"></a>为什么需要自定义import路径</h3><p><a target="_blank" rel="noopener" href="https://golang.google.cn/doc/go1.16">Go 1.16</a>已经默认开启Go Module模式</p>
-<h3 id="如何实现自定义import路径"><a href="#如何实现自定义import路径" class="headerlink" title="如何实现自定义import路径"></a>如何实现自定义import路径</h3><h4 id="申请自有域名"><a href="#申请自有域名" class="headerlink" title="申请自有域名"></a>申请自有域名</h4><p>首先，需要申请一个自有域名，如<code>devpkg.work</code></p>
+<h3 id="如何实现自定义import路径"><a href="#如何实现自定义import路径" class="headerlink" title="如何实现自定义import路径"></a>如何实现自定义import路径</h3><a id="more"></a>
+
+<h4 id="申请自有域名"><a href="#申请自有域名" class="headerlink" title="申请自有域名"></a>申请自有域名</h4><p>首先，需要申请一个自有域名，如<code>devpkg.work</code></p>
 <p>则其它项目要引用simplemod的代码，需要这样import</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;devpkg.work&#x2F;simplemod</span><br></pre></td></tr></table></figure>
 <p>创建一个module</p>
@@ -339,6 +344,20 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.jpg" alt="流云 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           
 
 <div class="post-copyright">
@@ -380,11 +399,7 @@
 
 
 
-    
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
+    <div class="comments" id="SOHUCS"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -457,36 +472,17 @@
 
 
 
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://slimccq.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://blog.prototyped.cn/2021/03/30/go-vanity-import/";
-    this.page.identifier = "2021/03/30/go-vanity-import/";
-    this.page.title = "Go Module如何自定义import路径";
-    };
-  NexT.utils.loadComments('#disqus_thread', () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvnEoLuW',
+        conf : '01de559d3cf64e4fe8a23e0da1e1953b'
       });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://slimccq.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
+    });
   });
-</script>
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 </body>
 </html>

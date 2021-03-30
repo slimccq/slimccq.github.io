@@ -12,6 +12,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta name="google-site-verification" content="wOowVdE8t-4f7XcFLx9Qgt5xpiWSkjeECVhSr793gxY">
+  <meta name="msvalidate.01" content="5E0DBB3C8C8CFB83411ED50D059CC7C2">
   <meta name="baidu-site-verification" content="c363640d6f7b6c025567421e08aee915">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -23,17 +24,17 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="通协议中的消息对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络代码里把TCP字节流解析成应用层需要的一条一条消息(message)。 一条消息包含消息ID和消息内容(payload)。 消息ID主要用于告知业务代码后续的二进制payload应该解析成什么样的结构，通常为了节省流量，消息ID使用整数表示。 以登陆消息为例，如下所示:    消息ID">
+<meta name="description" content="通协议中的消息对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络代码里把TCP字节流解析成应用层需要的一条一条消息(message)。 一条消息包含消息ID和消息内容(payload)。 消息ID主要用于告知业务代码后续的二进制payload应该解析成什么样的结构，通常为了节省流量，消息ID使用整数表示。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="protobuf在游戏通信协议中的使用">
 <meta property="og:url" content="https://blog.prototyped.cn/2021/03/06/protobuf-in-game/index.html">
 <meta property="og:site_name" content="流云的笔记">
-<meta property="og:description" content="通协议中的消息对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络代码里把TCP字节流解析成应用层需要的一条一条消息(message)。 一条消息包含消息ID和消息内容(payload)。 消息ID主要用于告知业务代码后续的二进制payload应该解析成什么样的结构，通常为了节省流量，消息ID使用整数表示。 以登陆消息为例，如下所示:    消息ID">
+<meta property="og:description" content="通协议中的消息对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络代码里把TCP字节流解析成应用层需要的一条一条消息(message)。 一条消息包含消息ID和消息内容(payload)。 消息ID主要用于告知业务代码后续的二进制payload应该解析成什么样的结构，通常为了节省流量，消息ID使用整数表示。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-05T23:57:55.000Z">
-<meta property="article:modified_time" content="2021-03-30T14:02:44.690Z">
+<meta property="article:modified_time" content="2021-03-30T14:36:29.314Z">
 <meta property="article:author" content="流云">
 <meta property="article:tag" content="gamedev">
 <meta property="article:tag" content="C++">
@@ -273,7 +274,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-30 22:02:44" itemprop="dateModified" datetime="2021-03-30T22:02:44+08:00">2021-03-30</time>
+        <time title="修改时间：2021-03-30 22:36:29" itemprop="dateModified" datetime="2021-03-30T22:36:29+08:00">2021-03-30</time>
       </span>
 
   
@@ -283,11 +284,13 @@
       <span class="post-meta-item-icon">
         <i class="far fa-comment"></i>
       </span>
-      <span class="post-meta-item-text">Disqus：</span>
+      <span class="post-meta-item-text">Changyan：</span>
     
-    <a title="disqus" href="/2021/03/06/protobuf-in-game/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/protobuf-in-game/" itemprop="commentCount"></span>
-    </a>
+    
+      <a title="changyan" href="/2021/03/06/protobuf-in-game/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/06/protobuf-in-game/" itemprop="commentCount"></span>
+      </a>
+    
   </span>
   
   
@@ -319,6 +322,8 @@
         <h3 id="通协议中的消息"><a href="#通协议中的消息" class="headerlink" title="通协议中的消息"></a>通协议中的消息</h3><p>对游戏项目而言，我们通常会使用TCP进行前后端的通信协议开发，TCP是字节流协议，所以还需要在网络代码里把TCP字节流解析成应用层需要的一条一条消息(message)。</p>
 <p>一条消息包含消息ID和消息内容(payload)。</p>
 <p>消息ID主要用于告知业务代码后续的二进制payload应该解析成什么样的结构，通常为了节省流量，消息ID使用整数表示。</p>
+<a id="more"></a>
+
 <p>以登陆消息为例，如下所示:</p>
 <table>
 <thead>
@@ -412,6 +417,20 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/alipay.jpg" alt="流云 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           
 
 <div class="post-copyright">
@@ -455,11 +474,7 @@
 
 
 
-    
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
+    <div class="comments" id="SOHUCS"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -532,36 +547,17 @@
 
 
 
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://slimccq.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://blog.prototyped.cn/2021/03/06/protobuf-in-game/";
-    this.page.identifier = "2021/03/06/protobuf-in-game/";
-    this.page.title = "protobuf在游戏通信协议中的使用";
-    };
-  NexT.utils.loadComments('#disqus_thread', () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvnEoLuW',
+        conf : '01de559d3cf64e4fe8a23e0da1e1953b'
       });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://slimccq.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
+    });
   });
-</script>
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 </body>
 </html>
