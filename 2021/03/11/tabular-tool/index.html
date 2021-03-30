@@ -281,22 +281,6 @@
       </span>
 
   
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan：</span>
-    
-    
-      <a title="changyan" href="/2021/03/11/tabular-tool/#SOHUCS" itemprop="discussionUrl">
-        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
       </div>
       <div class="post-meta">
     <span class="post-meta-item" title="本文字数">
@@ -438,7 +422,7 @@
 
 
 
-    <div class="comments" id="SOHUCS"></div>
+    <div class="comments gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -511,17 +495,26 @@
 
 
 
-  <script>
-  NexT.utils.loadComments('#SOHUCS', () => {
-    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
-      window.changyan.api.config({
-        appid: 'cyvnEoLuW',
-        conf : '01de559d3cf64e4fe8a23e0da1e1953b'
-      });
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('.gitalk-container', () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'a6003a1c193796ace086',
+      clientSecret: '4cf8f4c0fbeb5c4a8e4d66977dda4fac16e010a9',
+      repo        : 'cheadaq.github.io',
+      owner       : 'cheadaq',
+      admin       : ['cheadaq'],
+      id          : 'b9377fa44a9a690948c2e012cd7d96af',
+      proxy       : 'https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token',
+        language: 'zh-CN',
+      distractionFreeMode: true
     });
-  });
-  </script>
-  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+    gitalk.render(document.querySelector('.gitalk-container'));
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
