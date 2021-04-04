@@ -24,7 +24,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta property="og:type" content="website">
 <meta property="og:title" content="流云的笔记">
@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -257,11 +257,47 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-03-30 07:51:15 / 修改时间：22:36:44" itemprop="dateCreated datePublished" datetime="2021-03-30T07:51:15+08:00">2021-03-30</time>
+      <time title="创建时间：2021-03-30 07:51:15" itemprop="dateCreated datePublished" datetime="2021-03-30T07:51:15+08:00">2021-03-30</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-04 19:37:38" itemprop="dateModified" datetime="2021-04-04T19:37:38+08:00">2021-04-04</time>
+      </span>
 
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/30/go-vanity-import/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/30/go-vanity-import/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/30/go-vanity-import/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::https://blog.prototyped.cn/2021/03/30/go-vanity-import/" class="cy_cmt_count" data-xid="2021/03/30/go-vanity-import/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
   
       </div>
       <div class="post-meta">
@@ -270,7 +306,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>592</span>
+      <span>803</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -288,8 +324,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h3 id="为什么需要自定义import路径"><a href="#为什么需要自定义import路径" class="headerlink" title="为什么需要自定义import路径"></a>为什么需要自定义import路径</h3><p><a target="_blank" rel="noopener" href="https://golang.google.cn/doc/go1.16">Go 1.16</a>已经默认开启Go Module模式</p>
-<h3 id="如何实现自定义import路径"><a href="#如何实现自定义import路径" class="headerlink" title="如何实现自定义import路径"></a>如何实现自定义import路径</h3>
+          <h3 id="为什么需要自定义import路径"><a href="#为什么需要自定义import路径" class="headerlink" title="为什么需要自定义import路径"></a>为什么需要自定义import路径</h3><h4 id="Go-Module的流行"><a href="#Go-Module的流行" class="headerlink" title="Go Module的流行"></a>Go Module的流行</h4><p><a target="_blank" rel="noopener" href="https://golang.google.cn/doc/go1.13">Go 1.13</a>已经默认开启Go Module模式，随着Go Module支持的逐渐完善，Go Module会成为主流的开发方式</p>
+<p>import 路径使用github.com的仓库，本身是一种去中心化的设计，但是我们希望自定义这个import路径原因有二</p>
+<ol>
+<li>当github不可用的时候，你不能要求别人replace</li>
+<li>我希望自己控制最终的源码仓库托管在哪里；</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/30/go-vanity-import/#more" rel="contents">
@@ -354,9 +394,39 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-30 22:36:36" itemprop="dateModified" datetime="2021-03-30T22:36:36+08:00">2021-03-30</time>
+        <time title="修改时间：2021-04-04 19:35:23" itemprop="dateModified" datetime="2021-04-04T19:35:23+08:00">2021-04-04</time>
       </span>
 
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/11/tabular-tool/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/11/tabular-tool/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::https://blog.prototyped.cn/2021/03/11/tabular-tool/" class="cy_cmt_count" data-xid="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
   
       </div>
       <div class="post-meta">
@@ -365,7 +435,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>344</span>
+      <span>692</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -383,7 +453,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。</p>
+          <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，策划人员(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序人员拿到这个excel表进行数据建模，包括配置读取，数据结构定义等。如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，所以自然而然就产生了导表工具的开发需求。</p>
 <p>导表工具做的事情其实很简单，就是<code>导出</code>和<code>生成</code>两个功能，<code>导出</code>是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，<code>生成</code>是生成程序代码API，业务模块直接调用这个API就可以完成配置数据的读取和解析，甚至筛选。</p>
           <!--noindex-->
             <div class="post-button">
@@ -452,6 +522,36 @@
         <time title="修改时间：2021-03-30 22:36:29" itemprop="dateModified" datetime="2021-03-30T22:36:29+08:00">2021-03-30</time>
       </span>
 
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/06/protobuf-in-game/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/06/protobuf-in-game/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/06/protobuf-in-game/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::https://blog.prototyped.cn/2021/03/06/protobuf-in-game/" class="cy_cmt_count" data-xid="2021/03/06/protobuf-in-game/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
   
       </div>
       <div class="post-meta">
@@ -578,6 +678,19 @@
 
 
 
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://slimccq.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+
+  <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyvnEoLuW"></script>
 
 
 </body>

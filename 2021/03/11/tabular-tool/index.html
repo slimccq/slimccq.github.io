@@ -24,17 +24,17 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"blog.prototyped.cn","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="缘起在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，生成是生">
+<meta name="description" content="缘起在游戏开发的过程中，策划人员(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序人员拿到这个excel表进行数据建模，包括配置读取，数据结构定义等。如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，所以自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何实现一个导表工具">
 <meta property="og:url" content="https://blog.prototyped.cn/2021/03/11/tabular-tool/index.html">
 <meta property="og:site_name" content="流云的笔记">
-<meta property="og:description" content="缘起在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，生成是生">
+<meta property="og:description" content="缘起在游戏开发的过程中，策划人员(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序人员拿到这个excel表进行数据建模，包括配置读取，数据结构定义等。如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，所以自然而然就产生了导表工具的开发需求。 导表工具做的事情其实很简单，就是导出和生成两个功能，导出是解析excel表格把数据转换为csv、js">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-11T00:05:55.000Z">
-<meta property="article:modified_time" content="2021-03-30T14:36:36.955Z">
+<meta property="article:modified_time" content="2021-04-04T11:35:23.430Z">
 <meta property="article:author" content="流云">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="excel">
@@ -178,7 +178,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">缘起</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -199,7 +199,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -277,9 +277,39 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-30 22:36:36" itemprop="dateModified" datetime="2021-03-30T22:36:36+08:00">2021-03-30</time>
+        <time title="修改时间：2021-04-04 19:35:23" itemprop="dateModified" datetime="2021-04-04T19:35:23+08:00">2021-04-04</time>
       </span>
 
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/11/tabular-tool/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    
+      <a title="changyan" href="/2021/03/11/tabular-tool/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/11/tabular-tool/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
   
       </div>
       <div class="post-meta">
@@ -288,7 +318,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>344</span>
+      <span>692</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -306,11 +336,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，我们的策划同事(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序同事拿到这个excel表，如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，自然而然就产生了导表工具的开发需求。</p>
+        <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在游戏开发的过程中，策划人员(Game Designer)通常会把一些游戏系统的配置数据使用excel来进行配置，然后程序人员拿到这个excel表进行数据建模，包括配置读取，数据结构定义等。如果能很快地完成数据结构定义和数据读取，那样会节省很多开发时间，所以自然而然就产生了导表工具的开发需求。</p>
 <p>导表工具做的事情其实很简单，就是<code>导出</code>和<code>生成</code>两个功能，<code>导出</code>是解析excel表格把数据转换为csv、json之类的代码已解析的文件格式，<code>生成</code>是生成程序代码API，业务模块直接调用这个API就可以完成配置数据的读取和解析，甚至筛选。</p>
 <a id="more"></a>
 
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>假如有下面这样的一个表格</p>
+<p>假如有下面这样的一个表格</p>
 <table>
 <thead>
 <tr>
@@ -323,7 +353,7 @@
 <tbody><tr>
 <td>string</td>
 <td>int</td>
-<td>int16</td>
+<td>int</td>
 <td>int</td>
 </tr>
 <tr>
@@ -351,6 +381,19 @@
 <td>500</td>
 </tr>
 </tbody></table>
+<p>我们很自然地希望能有一个工具，把这个表格解析成一个结构</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Army</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="built_in">string</span> Name;</span><br><span class="line">    <span class="keyword">int</span> Damage;</span><br><span class="line">    <span class="keyword">int</span> Level;</span><br><span class="line">    <span class="keyword">int</span> CostFood;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后还能自动生成一个函数（假定叫Unmarshal)，这个Unmarshal函数可以把一行的内容，这一行的内容可以是逗号分隔的csv行</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Army::Unmarshal</span><span class="params">(<span class="built_in">string</span> line)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// parse line to fields</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就满足了一个基本的<code>丐版</code>导表工具。</p>
+<p>还会有一些其它的需求：</p>
+<ol>
+<li>解析简单的数组</li>
+<li>解析全局变量表这样的格式</li>
+<li>导出为不同语言(C++, Java, C#)</li>
+<li>使用哪些参数控制整个导出过程</li>
+</ol>
+<p>这里介绍我实现的一个<a target="_blank" rel="noopener" href="https://github.com/cheadaq/Tabular">Tabular</a></p>
 
     </div>
 
@@ -422,7 +465,24 @@
 
 
 
-    <div class="comments gitalk-container"></div>
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-changyan">changyan</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+            </div>
+            <div class="tab-pane changyan" id="comment-changyan">
+              <div class="comments" id="SOHUCS"></div>
+            </div>
+        </div>
+      </div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -495,26 +555,48 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
-
 <script>
-NexT.utils.loadComments('.gitalk-container', () => {
-  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'a6003a1c193796ace086',
-      clientSecret: '4cf8f4c0fbeb5c4a8e4d66977dda4fac16e010a9',
-      repo        : 'cheadaq.github.io',
-      owner       : 'cheadaq',
-      admin       : ['cheadaq'],
-      id          : 'b9377fa44a9a690948c2e012cd7d96af',
-      proxy       : 'https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render(document.querySelector('.gitalk-container'));
-  }, window.Gitalk);
-});
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://slimccq.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
 </script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.prototyped.cn/2021/03/11/tabular-tool/";
+    this.page.identifier = "2021/03/11/tabular-tool/";
+    this.page.title = "如何实现一个导表工具";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://slimccq.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+  <script>
+  NexT.utils.loadComments('#SOHUCS', () => {
+    NexT.utils.getScript('https://changyan.sohu.com/upload/changyan.js', () => {
+      window.changyan.api.config({
+        appid: 'cyvnEoLuW',
+        conf : '01de559d3cf64e4fe8a23e0da1e1953b'
+      });
+    });
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
 </body>
 </html>
